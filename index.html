@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>量子云模拟器 | 云原生 × 边缘计算 × 量子计算</title>
+    
+    <!-- Base64图标 - 原子符号 -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚛️</text></svg>">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Three.js 3D库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- OrbitControls 控制器 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.min.js"></script>
+    
+    <!-- 图表库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- 粒子背景库 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <!-- 粒子背景容器 -->
+    <div id="particles-js"></div>
+    
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 标题区 -->
+        <header class="header">
+            <h1 class="title">
+                <span class="title-quantum">量子云</span>
+                <span class="title-simulator">模拟器</span>
+            </h1>
+            <p class="subtitle">体验云原生、边缘计算与量子计算的融合</p>
+            <div class="tech-tags">
+                <span class="tag"><i class="fab fa-docker"></i> 容器化</span>
+                <span class="tag"><i class="fas fa-cloud"></i> 云原生</span>
+                <span class="tag"><i class="fas fa-satellite-dish"></i> 边缘计算</span>
+                <span class="tag"><i class="fas fa-atom"></i> 量子计算</span>
+            </div>
+        </header>
+
+        <!-- 主内容区 -->
+        <main class="main">
+            <!-- 量子模拟器 -->
+            <section class="card">
+                <h2><i class="fas fa-cube"></i> 量子模拟器</h2>
+                <div class="simulator-container">
+                    <div id="quantum-canvas"></div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label>叠加态 <span id="superposition-value">50%</span></label>
+                            <input type="range" id="superposition" min="0" max="100" value="50">
+                        </div>
+                        <div class="control-group">
+                            <label>纠缠度 <span id="entanglement-value">50%</span></label>
+                            <input type="range" id="entanglement" min="0" max="100" value="50">
+                        </div>
+                        <div class="buttons">
+                            <button class="btn primary" id="apply-gate">
+                                <i class="fas fa-bolt"></i> 应用量子门
+                            </button>
+                            <button class="btn secondary" id="reset-state">
+                                <i class="fas fa-redo"></i> 重置
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 云边协同 -->
+            <section class="card">
+                <h2><i class="fas fa-network-wired"></i> 云边协同网络</h2>
+                <div class="network-container">
+                    <div class="network-diagram">
+                        <div class="cloud-center">
+                            <i class="fas fa-cloud fa-3x"></i>
+                            <h3>云中心</h3>
+                            <p>负载: <span id="cloud-load">45%</span></p>
+                        </div>
+                        <div class="connections"></div>
+                        <div class="edge-nodes">
+                            <div class="edge-node">
+                                <i class="fas fa-server"></i>
+                                <span>边缘节点A</span>
+                                <div class="status active"></div>
+                            </div>
+                            <div class="edge-node">
+                                <i class="fas fa-server"></i>
+                                <span>边缘节点B</span>
+                                <div class="status active"></div>
+                            </div>
+                            <div class="edge-node">
+                                <i class="fas fa-server"></i>
+                                <span>边缘节点C</span>
+                                <div class="status warning"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="network-chart">
+                        <canvas id="network-chart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 量子算法 -->
+            <section class="card">
+                <h2><i class="fas fa-brain"></i> 量子算法演示</h2>
+                <div class="algorithms">
+                    <div class="algorithm">
+                        <h3><i class="fas fa-search"></i> Grover算法</h3>
+                        <p>量子搜索加速</p>
+                        <button class="btn small" data-algo="grover">运行</button>
+                    </div>
+                    <div class="algorithm">
+                        <h3><i class="fas fa-key"></i> Shor算法</h3>
+                        <p>量子因数分解</p>
+                        <button class="btn small" data-algo="shor">运行</button>
+                    </div>
+                    <div class="algorithm">
+                        <h3><i class="fas fa-project-diagram"></i> 量子神经网络</h3>
+                        <p>量子机器学习</p>
+                        <button class="btn small" data-algo="qnn">运行</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+<!-- 量子随机数生成器 -->
+<section class="card">
+    <h2><i class="fas fa-dice"></i> 量子随机数生成器</h2>
+    <div class="random-number-section">
+        <div class="random-display">
+            <div class="random-number" id="random-bits">0000 0000</div>
+            <div class="random-info">
+                <p>量子真随机数，基于量子叠加态</p>
+                <div class="random-stats">
+                    <span>熵值: <span id="entropy">0.98</span></span>
+                    <span>生成数: <span id="generated-count">0</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="random-controls">
+            <button class="btn" id="generate-1bit">
+                <i class="fas fa-bolt"></i> 生成1量子比特
+            </button>
+            <button class="btn" id="generate-8bits">
+                <i class="fas fa-bolt-lightning"></i> 生成8量子比特
+            </button>
+            <button class="btn secondary" id="clear-random">
+                <i class="fas fa-trash"></i> 清除
+            </button>
+        </div>
+        <div class="random-history">
+            <h4>生成历史</h4>
+            <div class="history-list" id="random-history"></div>
+        </div>
+    </div>
+</section>
+
+<!-- 量子态概率分布 -->
+<section class="card">
+    <h2><i class="fas fa-chart-pie"></i> 量子态概率分布</h2>
+    <div class="probability-section">
+        <div class="probability-visual">
+            <canvas id="probability-canvas" width="300" height="300"></canvas>
+            <div class="probability-labels">
+                <div class="prob-label state-0">
+                    <span class="state">|0⟩</span>
+                    <span class="value" id="prob-0">50.0%</span>
+                </div>
+                <div class="prob-label state-1">
+                    <span class="state">|1⟩</span>
+                    <span class="value" id="prob-1">50.0%</span>
+                </div>
+            </div>
+        </div>
+        <div class="probability-controls">
+            <div class="control-group">
+                <label>|0⟩ 概率</label>
+                <input type="range" id="prob-slider" min="0" max="100" value="50">
+                <span id="prob-value">50%</span>
+            </div>
+            <p class="info-text">
+                调整量子比特处于|0⟩状态的概率
+                <br>
+                概率塌缩会在测量时发生
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- 量子纠缠演示器 -->
+<section class="card">
+    <h2><i class="fas fa-link"></i> 量子纠缠演示</h2>
+    <div class="entanglement-demo">
+        <div class="entangled-particles">
+            <div class="particle" id="particle-a">
+                <div class="particle-spin spin-animation">↑</div>
+                <div class="particle-label">量子比特A</div>
+                <div class="particle-state" id="state-a">|0⟩</div>
+            </div>
+            <div class="entanglement-line">
+                <div class="line"></div>
+                <div class="connection"></div>
+                <div class="line"></div>
+            </div>
+            <div class="particle" id="particle-b">
+                <div class="particle-spin">↓</div>
+                <div class="particle-label">量子比特B</div>
+                <div class="particle-state" id="state-b">|1⟩</div>
+            </div>
+        </div>
+        <div class="entanglement-controls">
+            <div class="control-group">
+                <label>纠缠强度</label>
+                <input type="range" id="entanglement-strength" min="0" max="100" value="100">
+            </div>
+            <div class="entanglement-buttons">
+                <button class="btn small" id="measure-a">
+                    <i class="fas fa-ruler"></i> 测量A
+                </button>
+                <button class="btn small" id="measure-b">
+                    <i class="fas fa-ruler"></i> 测量B
+                </button>
+                <button class="btn small" id="entangle">
+                    <i class="fas fa-magnet"></i> 创建纠缠
+                </button>
+                <button class="btn small secondary" id="reset-entanglement">
+                    <i class="fas fa-redo"></i> 重置
+                </button>
+            </div>
+            <div class="entanglement-info" id="entanglement-info">
+                两个量子比特处于最大纠缠态
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 云边任务调度 -->
+<section class="card">
+    <h2><i class="fas fa-tasks"></i> 云边任务调度</h2>
+    <div class="task-scheduler">
+        <div class="task-controls">
+            <div class="task-input">
+                <input type="text" id="task-name" placeholder="输入任务名称">
+                <select id="task-type">
+                    <option value="compute">计算任务</option>
+                    <option value="data">数据处理</option>
+                    <option value="ai">AI推理</option>
+                    <option value="quantum">量子计算</option>
+                </select>
+                <button class="btn" id="add-task">
+                    <i class="fas fa-plus"></i> 添加任务
+                </button>
+            </div>
+            <div class="scheduler-controls">
+                <button class="btn small" id="schedule-tasks">
+                    <i class="fas fa-play"></i> 开始调度
+                </button>
+                <button class="btn small secondary" id="clear-tasks">
+                    <i class="fas fa-stop"></i> 停止
+                </button>
+            </div>
+        </div>
+        <div class="task-queues">
+            <div class="queue">
+                <h4><i class="fas fa-cloud"></i> 云中心队列</h4>
+                <div class="queue-list" id="cloud-queue"></div>
+            </div>
+            <div class="queue">
+                <h4><i class="fas fa-server"></i> 边缘队列</h4>
+                <div class="queue-list" id="edge-queue"></div>
+            </div>
+            <div class="queue">
+                <h4><i class="fas fa-check-circle"></i> 已完成</h4>
+                <div class="queue-list" id="completed-tasks"></div>
+            </div>
+        </div>
+        <div class="scheduler-stats">
+            <div class="stat">
+                <span>等待任务</span>
+                <strong id="waiting-tasks">0</strong>
+            </div>
+            <div class="stat">
+                <span>处理中</span>
+                <strong id="processing-tasks">0</strong>
+            </div>
+            <div class="stat">
+                <span>已完成</span>
+                <strong id="completed-count">0</strong>
+            </div>
+            <div class="stat">
+                <span>平均延迟</span>
+                <strong id="avg-latency">0ms</strong>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 主题切换按钮（放在页面右上角） -->
+<button class="theme-toggle" id="theme-toggle">
+    <i class="fas fa-moon"></i>
+</button>
+
+        <!-- 侧边监控面板 -->
+        <aside class="sidebar">
+            <div class="metrics-panel">
+                <h3><i class="fas fa-chart-line"></i> 实时监控</h3>
+                <div class="metrics">
+                    <div class="metric">
+                        <span>量子比特</span>
+                        <strong id="qubit-count">8</strong>
+                    </div>
+                    <div class="metric">
+                        <span>容器实例</span>
+                        <strong id="container-count">12</strong>
+                    </div>
+                    <div class="metric">
+                        <span>网络吞吐</span>
+                        <strong id="throughput">2.4 Gbps</strong>
+                    </div>
+                    <div class="metric">
+                        <span>保真度</span>
+                        <strong id="fidelity">98.7%</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="logs-panel">
+                <h3><i class="fas fa-clipboard-list"></i> 系统日志</h3>
+                <div class="logs" id="logs">
+                    <div class="log">[14:30] 量子模拟器启动</div>
+                    <div class="log">[14:31] 云边网络连接建立</div>
+                    <div class="log">[14:32] 量子门初始化完成</div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>量子云模拟器 | 课程作业：云原生、边缘计算与量子计算 | 部署于GitHub Pages</p>
+    </footer>
+
+    <!-- JavaScript文件 -->
+    <script src="script.js"></script>
+    <script src="three-app.js"></script>
+    <script src="enhanced-features.js"></script>
+</body>
+</html>
